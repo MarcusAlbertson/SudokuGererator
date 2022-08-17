@@ -65,3 +65,25 @@ class Generator:
             return False
         else:
             return True
+    def full_solution(self, grid):
+        """Uses backtracking and the random shuffle function to randomly
+        place integers 1 through 9 in the empty grid and backtrack until
+        there is a full solution"""
+        num_lst = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        shuffle(num_lst)
+        for i in range(0, 81):
+            row = i // 9
+            col = i % 9
+            if grid[row][col] == 0:
+                for num in num_lst:
+                    if self.is_valid(grid, row, col, num):
+                        self.path.append((num, row, col))
+                        grid[row][col] = num
+                        if not self.get_empty_square(grid):
+                            return True
+                        else:
+                            if self.full_solution(grid):
+                                return True
+                break
+        grid[row][col] = 0
+        return False
