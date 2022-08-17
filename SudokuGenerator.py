@@ -3,6 +3,9 @@ from random import shuffle
 
 class Generator:
 
+    def __init__(self, grid=None):
+
+
     @staticmethod
     def get_empty_square(grid):
         """Input is a 9*9 grid and returns the next empty square (the ones containing 0)
@@ -50,3 +53,15 @@ class Generator:
                     filled_square_lst.append((i, j))
         shuffle(filled_square_lst)
         return filled_square_lst
+
+    def is_valid(self, grid, row, col, num):
+        """combines the static methods to return false if the number has been used
+        in the row column or sub matrix"""
+        if self.is_num_in_row(grid, row, num)== True:
+            return False
+        elif self.is_num_in_column(grid, col, num)== True:
+            return False
+        elif self.is_num_in_sub(grid, row, col, num)==True:
+            return False
+        else:
+            return True
