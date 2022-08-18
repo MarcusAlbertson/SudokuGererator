@@ -8,7 +8,6 @@ class Generator:
     def __init__(self, grid=None):
         self.grid = [[0 for i in range(9)] for j in range(9)]
         self.solution_counter = 0
-        self.path = []
         self.generate()
 
     @staticmethod
@@ -94,7 +93,6 @@ class Generator:
             if grid[row][col] == 0:  # finding empty cells, then appends a num from num_lst if it is a valid location
                 for num in num_lst:
                     if self.is_valid(grid, row, col, num):
-                        self.path.append((num, row, col))
                         grid[row][col] = num
                         if not self.get_empty_square(grid):
                             return True
