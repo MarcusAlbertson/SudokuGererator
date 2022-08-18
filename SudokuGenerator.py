@@ -68,8 +68,9 @@ class Generator:
         return filled_square_lst
 
     def is_valid(self, grid, row, col, num):
-        """combines the static methods to return false if the number has been used
-        in the row column or sub matrix"""
+        """combines the static methods to determine if the number's location is valid
+
+        returns false if the number has been used in the row column or sub matrix"""
         if self.is_num_in_row(grid, row, num) == True:
             return False
         elif self.is_num_in_column(grid, col, num) == True:
@@ -82,20 +83,22 @@ class Generator:
     def full_solution(self, grid):
         """Uses backtracking and the random shuffle function to randomly
         place integers 1 through 9 in the empty grid and backtrack until
-        there is a full solution"""
+        there is a full solution
+
+        Returns a completed grid"""
         num_lst = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         shuffle(num_lst)
         for i in range(0, 81):
             row = i // 9
             col = i % 9
-            if grid[row][col] == 0:
+            if grid[row][col] == 0:  # finding empty cells, then appends a num from num_lst if it is a valid location
                 for num in num_lst:
                     if self.is_valid(grid, row, col, num):
                         self.path.append((num, row, col))
                         grid[row][col] = num
                         if not self.get_empty_square(grid):
                             return True
-                        else:
+                        else:  # If grid is full of numbers solution has been found and break
                             if self.full_solution(grid):
                                 return True
                 break
@@ -104,16 +107,16 @@ class Generator:
 
     def solve(self, grid):
         """This function solves a given puzzle where 0s are empty squares.
-        this function is then used i for removing numbers to make sure
+        this function is then used for removing numbers to make sure
         there is just 1 solution"""
         for i in range(0, 81):
             row = i // 9
             col = i % 9
-            if grid[row][col] == 0:
+            if grid[row][col] == 0:  # finds empty cell, then trys numbers and if they are valid replaces the cell
                 for num in range(0, 10):
                     if self.is_valid(grid, row, col, num):
                         grid[row][col] = num
-                        if not self.get_empty_square(grid):
+                        if not self.get_empty_square(grid):  # makes sure there is just one solution
                             self.solution_counter += 1
                             break
                         else:
@@ -124,25 +127,29 @@ class Generator:
 
     def remove_numbers_from_grid(self):
         """This function removes numbers from the full solution grid based on the
-        user difficulty input. Then it returns the new puzzle."""
+        user difficulty input.
+
+        Returns a solvable puzzle with one solution"""
         filled_squares = self.get_filled_squares(self.grid)
         filled_squares_count = len(filled_squares)
-        a = input('What difficulty would you like (easy, medium, or hard?) ')
+        a = input('What difficulty would you like (easy, medium, or hard?) ')  # setting the value for how many
+        # squares will stay filled
         if a == 'easy':
             b = 51
         elif a == 'medium':
             b = 35
         elif a == 'hard':
             b = 18
-        while filled_squares_count >= b:
-            row, col = filled_squares.pop()
+        while filled_squares_count >= b:  # starts with 81 filled squares then removes numbers until there are b
+            # filled squares
+            row, col = filled_squares.pop()  # removes numbers and replaces them with ' '
             filled_squares_count -= 1
             self.grid[row][col] = ' '
-            grid_copy = self.grid
             removed_square = self.grid[row][col]
             self.solution_counter = 0
-            self.solve(grid_copy)
-            if self.solution_counter != 1:
+            self.solve(self.grid)  # uses the solve function to determine how many solutions there are
+            if self.solution_counter != 1: # there is not one solution, replace the number, add it back to the filled
+                # square count and move to the next cell
                 self.grid[row][col] = removed_square
                 filled_squares_count += 1
 
@@ -160,4 +167,3 @@ class Generator:
         self.print('Full Solution:')
         self.remove_numbers_from_grid()
         self.print('Puzzle:')
-
