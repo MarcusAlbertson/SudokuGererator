@@ -148,7 +148,8 @@ class Generator:
             removed_square = self.grid[row][col]
             self.solution_counter = 0
             self.solve(self.grid)  # uses the solve function to determine how many solutions there are
-            if self.solution_counter != 1: # there is not one solution, replace the number, add it back to the filled
+            if self.solution_counter != 1:  # if there is not one solution, replace the number, add it back to the
+                # filled
                 # square count and move to the next cell
                 self.grid[row][col] = removed_square
                 filled_squares_count += 1
