@@ -21,6 +21,19 @@ class Generator:
                     return i, j
 
     @staticmethod
+    def get_filled_squares(grid):
+        """From the grid, this function find the squares that contain numbers (non 0s)
+
+        returns a shuffled list of all squares that are filled with a number"""
+        filled_square_lst = []
+        for i in range(0, len(grid)):
+            for j in range(0, len(grid)):
+                if grid[i][j] != 0:
+                    filled_square_lst.append((i, j))
+        shuffle(filled_square_lst)
+        return filled_square_lst
+
+    @staticmethod
     def is_num_in_sub(grid, row, col, num):
         """Finds whether a number has been using in a 3x3 sub Matrix
 
@@ -52,19 +65,6 @@ class Generator:
             if grid[i][col] == num:
                 return True
         return False
-
-    @staticmethod
-    def get_filled_squares(grid):
-        """From the grid, this function find the squares that contain numbers (non 0s)
-
-        returns a shuffled list of all squares that are filled with a number"""
-        filled_square_lst = []
-        for i in range(0, len(grid)):
-            for j in range(0, len(grid)):
-                if grid[i][j] != 0:
-                    filled_square_lst.append((i, j))
-        shuffle(filled_square_lst)
-        return filled_square_lst
 
     def is_valid(self, grid, row, col, num):
         """combines the static methods to determine if the number's location is valid
@@ -133,11 +133,11 @@ class Generator:
         a = input('What difficulty would you like (easy, medium, or hard?) ')  # setting the value for how many
         # squares will stay filled
         if a == 'easy':
-            b = 51
+            b = 60
         elif a == 'medium':
-            b = 35
+            b = 40
         elif a == 'hard':
-            b = 18
+            b = 22
         while filled_squares_count >= b:  # starts with 81 filled squares then removes numbers until there are b
             # filled squares
             row, col = filled_squares.pop()  # removes numbers and replaces them with ' '
