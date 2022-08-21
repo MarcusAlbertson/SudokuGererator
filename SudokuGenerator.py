@@ -2,8 +2,8 @@ from random import shuffle
 
 
 class Generator:
-    """Generates a full Sudoku solution, then converts it into a puzzle based on
-    input difficulty"""
+    """Uses random numbers to generate a complete, valid Sudoku puzzle,
+    then removes numbers based on user difficulty setting to create puzzle"""
 
     def __init__(self, grid=None):
         self.grid = [[0 for i in range(9)] for j in range(9)]
@@ -124,8 +124,9 @@ class Generator:
         grid[row][col] = 0
 
     def remove_numbers_from_grid(self):
-        """This function removes numbers from the full solution grid based on the
-        user difficulty input.
+        """User inputs a difficultly setting. Based on that difficulty setting,
+        a certain amount of numbers is removed from the complete solution, creating a puzzle.
+        Solution counter is check to insure there is just one solution. If not, backtracks.
 
         Returns a solvable puzzle with one solution"""
         filled_squares = self.get_filled_squares(self.grid)
