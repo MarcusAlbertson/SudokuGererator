@@ -2,8 +2,10 @@ from random import shuffle
 
 
 class Generator:
-    """Uses random numbers to generate a complete, valid Sudoku puzzle,
-    then removes numbers based on user difficulty setting to create puzzle"""
+    """Creates filled valid 9x9 grid using random numbers, then removes numbers to create puzzle.
+
+    Returns puzzle and solution
+    """
 
     def __init__(self, grid=None):
         self.grid = [[0 for i in range(9)] for j in range(9)]
@@ -12,7 +14,7 @@ class Generator:
 
     @staticmethod
     def get_empty_square(grid):
-        """Input is a 9*9 grid
+        """Input is a 9*9 grid. Finds locations on the grid that are empty (contain 0)
 
         Returns the next empty square (the ones containing 0) as a tuple."""
         for i in range(0, 9):
@@ -48,7 +50,7 @@ class Generator:
 
     @staticmethod
     def is_num_in_row(grid, row, num):
-        """Finds whether a number has been using in a specific row
+        """Finds whether a number has been used in a specific row
 
         Returns true if the number is already in that row and false if it isn't"""
         if num in grid[row]:
@@ -104,9 +106,8 @@ class Generator:
         return False
 
     def solve(self, grid):
-        """This function solves a given puzzle where 0s are empty squares.
-        this function is then used for removing numbers to make sure
-        there is just 1 solution"""
+        """Takes input grid containing 0s as empty squares and numbers as filled squares,
+         and counts the amount of valid ways a grid can be completed"""
         for i in range(0, 81):
             row = i // 9
             col = i % 9
@@ -125,7 +126,7 @@ class Generator:
 
     def remove_numbers_from_grid(self):
         """User inputs a difficultly setting. Based on that difficulty setting,
-        a certain amount of numbers is removed from the complete solution, creating a puzzle.
+        a certain amount of numbers is removed from the complete grid, creating a puzzle.
         Solution counter is check to insure there is just one solution. If not, backtracks.
 
         Returns a solvable puzzle with one solution"""
